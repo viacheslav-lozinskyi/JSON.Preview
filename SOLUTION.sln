@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "preview-json.vs", "application\plugin.vs\preview-json.vs.csproj", "{60646167-5180-48C6-95AA-C80588499F32}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "application", "application", "{F4B9C5FC-1DF9-4F9A-9F08-33F34092A0D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "preview-json.vs", "application\preview-json.vs\preview-json.vs.csproj", "{60646167-5180-48C6-95AA-C80588499F32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +20,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{60646167-5180-48C6-95AA-C80588499F32} = {F4B9C5FC-1DF9-4F9A-9F08-33F34092A0D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A1BB0EA6-6A4F-4731-8167-0CD6174DFD42}

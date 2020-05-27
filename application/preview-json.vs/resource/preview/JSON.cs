@@ -1,7 +1,6 @@
 
 using System.IO;
 using System.Text.Json;
-using System.Xml;
 
 namespace resource.preview
 {
@@ -27,10 +26,10 @@ namespace resource.preview
             return false;
         }
 
-        protected override bool _Activate()
-        {
-            return cartridge.AnyOutput.Activate();
-        }
+        //protected override bool _Activate()
+        //{
+        //    return true;
+        //}
 
         protected override bool _Execute(string url, atom.Trace context)
         {
@@ -39,11 +38,6 @@ namespace resource.preview
                 __Execute(url, a_Context.RootElement, 1, context);
             }
             return true;
-        }
-
-        protected override bool _Send(string value)
-        {
-            return cartridge.AnyOutput.Write(value);
         }
 
         private static void __Execute(string url, JsonElement node, int level, atom.Trace context)
