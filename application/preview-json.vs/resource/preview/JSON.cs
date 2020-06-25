@@ -1,6 +1,7 @@
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.IO;
-using System.Text.Json;
 
 namespace resource.preview
 {
@@ -8,54 +9,23 @@ namespace resource.preview
     {
         protected override void _Execute(atom.Trace context, string url)
         {
-            __Execute(JsonDocument.Parse(File.ReadAllText(url)).RootElement, 1, context, "");
-        }
-
-        private static void __Execute(JsonElement node, int level, atom.Trace context, string name)
-        {
-            var a_Index = 0;
-            switch (node.ValueKind)
+            var a_Context = JsonConvert.DeserializeObject(File.ReadAllText(url)) as JContainer;
+            if ((a_Context != null) && a_Context.HasValues)
             {
-                case JsonValueKind.Object:
-                    foreach (JsonProperty a_Context in node.EnumerateObject())
-                    {
-                        __Execute(a_Context, level + 1, context, a_Context.Name);
-                    }
-                    break;
-                case JsonValueKind.Array:
-                    foreach (JsonElement a_Context in node.EnumerateArray())
-                    {
-                        a_Index++;
-                        __Execute(a_Context, level + 1, context, "[" + a_Index.ToString() + "]");
-                    }
-                    break;
-                default:
-                    __Send(node, level, context, name);
-                    break;
+                foreach (JToken a_Context1 in a_Context.Children())
+                {
+                    __Execute(a_Context1, 1, context, "");
+                }
             }
         }
 
-        private static void __Execute(JsonProperty node, int level, atom.Trace context, string name)
+        private static void __Execute(JToken node, int level, atom.Trace context, string name)
         {
-            {
-                __Send(node.Value, level, context, name);
-            }
-            switch (node.Value.ValueKind)
-            {
-                case JsonValueKind.Object:
-                case JsonValueKind.Array:
-                    __Execute(node.Value, level + 1, context, name);
-                    break;
-            }
-        }
-
-        private static void __Send(JsonElement node, int level, atom.Trace context, string name)
-        {
-            if (string.IsNullOrEmpty(name) == false)
+            if ((node is JProperty) == false)
             {
                 context.
                     Clear().
-                    SetContent(GetCleanString(name)).
+                    SetContent(name).
                     SetValue(__GetValue(node)).
                     SetComment(__GetComment(node)).
                     SetPattern(__GetPattern(node)).
@@ -63,41 +33,63 @@ namespace resource.preview
                     SetLevel(level).
                     Send();
             }
+            if (node.HasValues)
+            {
+                var a_Index = 0;
+                foreach (JToken a_Context in node.Children())
+                {
+                    {
+                        a_Index++;
+                    }
+                    if (node is JProperty)
+                    {
+                        __Execute(a_Context, level, context, (node as JProperty).Name);
+                    }
+                    else
+                    {
+                        __Execute(a_Context, level + 1, context, (node.Type == JTokenType.Array) ? "[" + a_Index.ToString() + "]" : "");
+                    }
+                }
+            }
         }
 
-        private static string __GetComment(JsonElement node)
+        private static string __GetValue(JToken node)
         {
-            switch (node.ValueKind)
+            return GetCleanString(node.ToString());
+        }
+
+        private static string __GetComment(JToken node)
+        {
+            switch (node.Type)
             {
-                case JsonValueKind.Undefined: return "Undefined";
-                case JsonValueKind.Object: return "Object";
-                case JsonValueKind.Array: return "Array";
-                case JsonValueKind.String: return "String";
-                case JsonValueKind.Number: return "Number";
-                case JsonValueKind.True: return "Boolean";
-                case JsonValueKind.False: return "Boolean";
-                case JsonValueKind.Null: return "Null";
+                case JTokenType.None: return "None";
+                case JTokenType.Object: return "Object";
+                case JTokenType.Array: return "Array";
+                case JTokenType.Constructor: return "Constructor";
+                case JTokenType.Property: return "Property";
+                case JTokenType.Comment: return "Comment";
+                case JTokenType.Integer: return "Integer";
+                case JTokenType.Float: return "Float";
+                case JTokenType.String: return "String";
+                case JTokenType.Boolean: return "Boolean";
+                case JTokenType.Null: return "Null";
+                case JTokenType.Undefined: return "Undefined";
+                case JTokenType.Date: return "Date";
+                case JTokenType.Raw: return "Raw";
+                case JTokenType.Bytes: return "Bytes";
+                case JTokenType.Guid: return "Guid";
+                case JTokenType.Uri: return "Uri";
+                case JTokenType.TimeSpan: return "TimeSpan";
             }
             return "";
         }
 
-        private static string __GetValue(JsonElement node)
+        private static string __GetPattern(JToken node)
         {
-            switch (node.ValueKind)
+            switch (node.Type)
             {
-                case JsonValueKind.Object:
-                case JsonValueKind.Array:
-                    return "";
-            }
-            return GetCleanString(node.ToString());
-        }
-
-        private static string __GetPattern(JsonElement node)
-        {
-            switch (node.ValueKind)
-            {
-                case JsonValueKind.Object:
-                case JsonValueKind.Array:
+                case JTokenType.Object:
+                case JTokenType.Array:
                     return "";
             }
             return atom.Trace.NAME.PATTERN.VARIABLE;
