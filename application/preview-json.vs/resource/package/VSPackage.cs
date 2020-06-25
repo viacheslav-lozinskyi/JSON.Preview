@@ -16,22 +16,24 @@ namespace resource.package
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionHasMultipleProjects_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionHasSingleProject_string, PackageAutoLoadFlags.BackgroundLoad)]
-    [ProvideMenuResource("Menus.ctmenu", 1)]
-    public sealed class PreviewJSONPackage : AsyncPackage
+    public sealed class PreviewXMLPackage : AsyncPackage
     {
         internal static class CONSTANT
         {
+            public const string COPYRIGHT = "Copyright (c) 2020 by Viacheslav Lozinskyi. All rights reserved.";
+            public const string DESCRIPTION = "Quick preview for selected JSON files";
+            public const string EXTENSION = ".JSON";
             public const string GUID = "9E4EBB7D-C389-407B-900F-ADCD2E3F1B80";
             public const string NAME = "Preview-JSON";
-            public const string DESCRIPTION = "Quick preview for selected JSON files";
-            public const string VERSION = "1.0.1";
+            public const string VERSION = "1.0.2";
         }
 
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             {
-                cartridge.AnyPreview.Connect(new preview.JSON());
+                cartridge.AnyPreview.Connect();
+                cartridge.AnyPreview.Register(cartridge.AnyPreview.MODE.PREVIEW, CONSTANT.EXTENSION, new preview.JSON());
             }
         }
 

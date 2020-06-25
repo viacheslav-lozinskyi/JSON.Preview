@@ -6,117 +6,101 @@ namespace resource.preview
 {
     public class JSON : cartridge.AnyPreview
     {
-        internal static class CONSTANT
+        protected override void _Execute(atom.Trace context, string url)
         {
-            public const string EXTENSION = ".JSON";
-            public const string HINT = "Tag type";
+            __Execute(JsonDocument.Parse(File.ReadAllText(url)).RootElement, 1, context, "");
         }
 
-        protected override bool _IsEnabled(string url)
+        private static void __Execute(JsonElement node, int level, atom.Trace context, string name)
         {
-            if (File.Exists(url))
+            var a_Index = 0;
+            switch (node.ValueKind)
             {
-                return Path.GetExtension(url).ToUpper() == CONSTANT.EXTENSION;
+                case JsonValueKind.Object:
+                    foreach (JsonProperty a_Context in node.EnumerateObject())
+                    {
+                        __Execute(a_Context, level + 1, context, a_Context.Name);
+                    }
+                    break;
+                case JsonValueKind.Array:
+                    foreach (JsonElement a_Context in node.EnumerateArray())
+                    {
+                        a_Index++;
+                        __Execute(a_Context, level + 1, context, "[" + a_Index.ToString() + "]");
+                    }
+                    break;
+                default:
+                    __Send(node, level, context, name);
+                    break;
             }
-            return false;
         }
 
-        protected override bool _Execute(string url, atom.Trace context)
+        private static void __Execute(JsonProperty node, int level, atom.Trace context, string name)
         {
-            var a_Context = JsonDocument.Parse(File.ReadAllText(url));
             {
-                __Execute(url, a_Context.RootElement, 1, context);
+                __Send(node.Value, level, context, name);
             }
-            return true;
+            switch (node.Value.ValueKind)
+            {
+                case JsonValueKind.Object:
+                case JsonValueKind.Array:
+                    __Execute(node.Value, level + 1, context, name);
+                    break;
+            }
         }
 
-        private static void __Execute(string url, JsonElement node, int level, atom.Trace context)
+        private static void __Send(JsonElement node, int level, atom.Trace context, string name)
         {
-            //if (node == null)
-            //{
-            //    return;
-            //}
-            //if (string.IsNullOrEmpty(node.Name))
-            //{
-            //    return;
-            //}
-            //if (context.IsTerminated() == false)
-            //{
-            //    if (node.NodeType != XmlNodeType.Comment)
-            //    {
-            //        context.
-            //            Clear().
-            //            SetContent(__GetContent(node)).
-            //            SetComment(__GetComment(node)).
-            //            SetPattern(__GetPattern(node)).
-            //            SetFlag((level == 1) ? cartridge.AnyPreview.NAME.FLAG.EXPAND : "").
-            //            SetHint(CONSTANT.HINT).
-            //            SetLevel(level).
-            //            Send();
-            //    }
-            //    if ((node.Attributes != null) && (node.NodeType == XmlNodeType.Element))
-            //    {
-            //        foreach (XmlAttribute a_Context in node.Attributes)
-            //        {
-            //            if (context.IsTerminated())
-            //            {
-            //                return;
-            //            }
-            //            {
-            //                __Execute(url, a_Context, level + 1, context);
-            //            }
-            //        }
-            //    }
-            //    if ((node.ChildNodes != null) && (node.NodeType == XmlNodeType.Element))
-            //    {
-            //        foreach (JsonElement a_Context in node.ChildNodes)
-            //        {
-            //            if (context.IsTerminated())
-            //            {
-            //                return;
-            //            }
-            //            {
-            //                __Execute(url, a_Context, level + 1, context);
-            //            }
-            //        }
-            //    }
-            //}
+            if (string.IsNullOrEmpty(name) == false)
+            {
+                context.
+                    Clear().
+                    SetContent(GetCleanString(name)).
+                    SetValue(__GetValue(node)).
+                    SetComment(__GetComment(node)).
+                    SetPattern(__GetPattern(node)).
+                    SetHint("Data type").
+                    SetLevel(level).
+                    Send();
+            }
         }
 
         private static string __GetComment(JsonElement node)
         {
-            //switch (node.NodeType)
-            //{
-            //    case XmlNodeType.None: return "None";
-            //    case XmlNodeType.Element: return "Element";
-            //    case XmlNodeType.Attribute: return "Attribute";
-            //    case XmlNodeType.Text: return "Text";
-            //    case XmlNodeType.CDATA: return "CDATA";
-            //    case XmlNodeType.EntityReference: return "Entity Reference";
-            //    case XmlNodeType.Entity: return "Entity";
-            //    case XmlNodeType.ProcessingInstruction: return "Processing Instruction";
-            //    case XmlNodeType.Comment: return "Comment";
-            //    case XmlNodeType.Document: return "Document";
-            //    case XmlNodeType.DocumentType: return "Document Type";
-            //    case XmlNodeType.DocumentFragment: return "Document Fragment";
-            //    case XmlNodeType.Notation: return "Notation";
-            //    case XmlNodeType.Whitespace: return "Whitespace";
-            //    case XmlNodeType.SignificantWhitespace: return "Significant Whitespace";
-            //    case XmlNodeType.EndElement: return "End Element";
-            //    case XmlNodeType.EndEntity: return "End Entity";
-            //    case XmlNodeType.XmlDeclaration: return "Declaration";
-            //}
+            switch (node.ValueKind)
+            {
+                case JsonValueKind.Undefined: return "Undefined";
+                case JsonValueKind.Object: return "Object";
+                case JsonValueKind.Array: return "Array";
+                case JsonValueKind.String: return "String";
+                case JsonValueKind.Number: return "Number";
+                case JsonValueKind.True: return "Boolean";
+                case JsonValueKind.False: return "Boolean";
+                case JsonValueKind.Null: return "Null";
+            }
             return "";
         }
 
-        private static string __GetContent(JsonElement node)
+        private static string __GetValue(JsonElement node)
         {
-            return "";//node.Name + (string.IsNullOrEmpty(node.Value) ? "" : (" = " + cartridge.AnyUtility.GetCleanString(node.Value)));
+            switch (node.ValueKind)
+            {
+                case JsonValueKind.Object:
+                case JsonValueKind.Array:
+                    return "";
+            }
+            return GetCleanString(node.ToString());
         }
 
         private static string __GetPattern(JsonElement node)
         {
-            return "";// (node.NodeType == XmlNodeType.Attribute) ? cartridge.AnyPreview.NAME.PATTERN.PARAMETER : "";
+            switch (node.ValueKind)
+            {
+                case JsonValueKind.Object:
+                case JsonValueKind.Array:
+                    return "";
+            }
+            return atom.Trace.NAME.PATTERN.VARIABLE;
         }
     };
 }

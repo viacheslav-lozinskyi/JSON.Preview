@@ -1,14 +1,15 @@
-﻿using System.Reflection;
+﻿
+using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Preview-JSON")]
-[assembly: AssemblyDescription("Quick preview for selected JSON files")]
+[assembly: AssemblyTitle(resource.package.PreviewXMLPackage.CONSTANT.NAME)]
+[assembly: AssemblyDescription(resource.package.PreviewXMLPackage.CONSTANT.DESCRIPTION)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Preview-JSON")]
-[assembly: AssemblyCopyright("Copyright (c) 2020 by Viacheslav Lozinskyi. All rights reserved.")]
-[assembly: AssemblyTrademark("MetaPreview")]
+[assembly: AssemblyProduct(resource.package.PreviewXMLPackage.CONSTANT.NAME)]
+[assembly: AssemblyCopyright(resource.package.PreviewXMLPackage.CONSTANT.COPYRIGHT)]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("1.0.1")]
-[assembly: AssemblyFileVersion("1.0.1")]
+[assembly: AssemblyVersion(resource.package.PreviewXMLPackage.CONSTANT.VERSION)]
+[assembly: AssemblyFileVersion(resource.package.PreviewXMLPackage.CONSTANT.VERSION)]
