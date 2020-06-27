@@ -21,7 +21,7 @@ namespace resource.package
         internal static class CONSTANT
         {
             public const string COPYRIGHT = "Copyright (c) 2020 by Viacheslav Lozinskyi. All rights reserved.";
-            public const string DESCRIPTION = "Quick preview for selected JSON files";
+            public const string DESCRIPTION = "Quick preview of JSON files";
             public const string EXTENSION = ".JSON";
             public const string GUID = "9E4EBB7D-C389-407B-900F-ADCD2E3F1B80";
             public const string NAME = "Preview-JSON";
