@@ -16,7 +16,7 @@ namespace resource.package
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionHasMultipleProjects_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionHasSingleProject_string, PackageAutoLoadFlags.BackgroundLoad)]
-    public sealed class PreviewXMLPackage : AsyncPackage
+    public sealed class PreviewJSONPackage : AsyncPackage
     {
         internal static class CONSTANT
         {
