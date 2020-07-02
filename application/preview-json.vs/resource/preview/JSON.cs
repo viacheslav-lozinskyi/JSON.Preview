@@ -62,24 +62,24 @@ namespace resource.preview
         {
             switch (node.Type)
             {
-                case JTokenType.None: return "None";
-                case JTokenType.Object: return "Object";
-                case JTokenType.Array: return "Array";
-                case JTokenType.Constructor: return "Constructor";
-                case JTokenType.Property: return "Property";
-                case JTokenType.Comment: return "Comment";
-                case JTokenType.Integer: return "Integer";
-                case JTokenType.Float: return "Float";
-                case JTokenType.String: return "String";
-                case JTokenType.Boolean: return "Boolean";
-                case JTokenType.Null: return "Null";
-                case JTokenType.Undefined: return "Undefined";
-                case JTokenType.Date: return "Date";
-                case JTokenType.Raw: return "Raw";
-                case JTokenType.Bytes: return "Bytes";
-                case JTokenType.Guid: return "Guid";
-                case JTokenType.Uri: return "Uri";
-                case JTokenType.TimeSpan: return "TimeSpan";
+                case JTokenType.None: return "[[None]]";
+                case JTokenType.Object: return "[[Object]]";
+                case JTokenType.Array: return "[[Array]]";
+                case JTokenType.Constructor: return "[[Constructor]]";
+                case JTokenType.Property: return "[[Property]]";
+                case JTokenType.Comment: return "[[Comment]]";
+                case JTokenType.Integer: return "[[Integer]]";
+                case JTokenType.Float: return "[[Float]]";
+                case JTokenType.String: return "[[String]]";
+                case JTokenType.Boolean: return "[[Boolean]]";
+                case JTokenType.Null: return "[[Null]]";
+                case JTokenType.Undefined: return "[[Undefined]]";
+                case JTokenType.Date: return "[[Time]]";
+                case JTokenType.Raw: return "[[Raw]]";
+                case JTokenType.Bytes: return "[[Bytes]]";
+                case JTokenType.Guid: return "GUID";
+                case JTokenType.Uri: return "URI";
+                case JTokenType.TimeSpan: return "[[Time]]";
             }
             return "";
         }
