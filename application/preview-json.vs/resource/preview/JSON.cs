@@ -92,7 +92,7 @@ namespace resource.preview
                 case JTokenType.Array:
                     return "";
             }
-            return atom.Trace.NAME.PATTERN.VARIABLE;
+            return NAME.PATTERN.VARIABLE;
         }
     };
 }
