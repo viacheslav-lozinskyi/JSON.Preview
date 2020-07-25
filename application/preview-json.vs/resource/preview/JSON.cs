@@ -17,10 +17,19 @@ namespace resource.preview
                     __Execute(a_Context1, 1, context, "");
                 }
             }
+            if (GetState() == STATE.CANCEL)
+            {
+                context.
+                    SendWarning(1, NAME.WARNING.TERMINATED);
+            }
         }
 
         private static void __Execute(JToken node, int level, atom.Trace context, string name)
         {
+            if (GetState() == STATE.CANCEL)
+            {
+                return;
+            }
             if ((node is JProperty) == false)
             {
                 context.
@@ -90,7 +99,7 @@ namespace resource.preview
             {
                 case JTokenType.Object:
                 case JTokenType.Array:
-                    return "";
+                    return NAME.PATTERN.ELEMENT;
             }
             return NAME.PATTERN.VARIABLE;
         }
