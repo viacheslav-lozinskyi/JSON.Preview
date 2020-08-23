@@ -38,7 +38,7 @@ namespace resource.preview
                     SetValue(__GetValue(node)).
                     SetComment(__GetComment(node)).
                     SetPattern(__GetPattern(node)).
-                    SetHint("[[Data type]]").
+                    SetCommentHint("[[Data type]]").
                     SetLevel(level).
                     Send();
             }
