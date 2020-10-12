@@ -6,7 +6,7 @@
 ![Image](https://img.shields.io/badge/VS-2017-blueviolet)
 ![Image](https://img.shields.io/badge/VS-2015-blueviolet)
 
-### Now you can look inside JSON file not opening it.
+### Now you can look inside [JSON](https://en.wikipedia.org/wiki/JSON) file not opening it.
 ---
 
 ![Image](resource/video/Presentation1.gif)
