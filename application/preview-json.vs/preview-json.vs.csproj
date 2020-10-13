@@ -90,6 +90,15 @@
       <Link>Newtonsoft.Json.dll</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="..\..\resource\sample\Sample1.json">
+      <Link>resource\sample\Sample1.json</Link>
+    </Content>
+    <Content Include="..\..\resource\sample\Sample2.json">
+      <Link>resource\sample\Sample2.json</Link>
+    </Content>
+    <Content Include="..\..\resource\sample\Sample3.json">
+      <Link>resource\sample\Sample3.json</Link>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
