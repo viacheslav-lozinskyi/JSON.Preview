@@ -5,7 +5,7 @@ using System.IO;
 
 namespace resource.preview
 {
-    public class JSON : cartridge.AnyPreview
+    internal class VSPreview : cartridge.AnyPreview
     {
         protected override void _Execute(atom.Trace context, string url)
         {
@@ -33,11 +33,10 @@ namespace resource.preview
             if ((node is JProperty) == false)
             {
                 context.
-                    Clear().
                     SetContent(name).
                     SetValue(__GetValue(node)).
                     SetComment(__GetComment(node)).
-                    SetPattern(__GetPattern(node)).
+                    SetType(__GetType(node)).
                     SetCommentHint("[[Data type]]").
                     SetLevel(level).
                     Send();
@@ -93,15 +92,15 @@ namespace resource.preview
             return "";
         }
 
-        private static string __GetPattern(JToken node)
+        private static string __GetType(JToken node)
         {
             switch (node.Type)
             {
                 case JTokenType.Object:
                 case JTokenType.Array:
-                    return NAME.PATTERN.ELEMENT;
+                    return NAME.TYPE.INFO;
             }
-            return NAME.PATTERN.VARIABLE;
+            return NAME.TYPE.VARIABLE;
         }
     };
 }
