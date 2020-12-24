@@ -7,20 +7,15 @@ namespace resource.preview
 {
     internal class VSPreview : cartridge.AnyPreview
     {
-        protected override void _Execute(atom.Trace context, string url)
+        protected override void _Execute(atom.Trace context, string url, int level)
         {
             var a_Context = JsonConvert.DeserializeObject(File.ReadAllText(url)) as JContainer;
             if ((a_Context != null) && a_Context.HasValues)
             {
                 foreach (JToken a_Context1 in a_Context.Children())
                 {
-                    __Execute(a_Context1, 1, context, "");
+                    __Execute(a_Context1, level, context, "");
                 }
-            }
-            if (GetState() == STATE.CANCEL)
-            {
-                context.
-                    SendWarning(1, NAME.WARNING.TERMINATED);
             }
         }
 
@@ -33,13 +28,8 @@ namespace resource.preview
             if ((node is JProperty) == false)
             {
                 context.
-                    SetContent(name).
-                    SetValue(__GetValue(node)).
-                    SetComment(__GetComment(node)).
-                    SetType(__GetType(node)).
-                    SetCommentHint("[[Data type]]").
-                    SetLevel(level).
-                    Send();
+                    SetComment(__GetComment(node), "[[Data type]]").
+                    Send(NAME.SOURCE.PREVIEW, __GetType(node), level, name, __GetValue(node));
             }
             if (node.HasValues)
             {
