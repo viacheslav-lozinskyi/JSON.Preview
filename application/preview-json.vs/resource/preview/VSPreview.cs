@@ -87,9 +87,9 @@ namespace resource.preview
             {
                 case JTokenType.Object:
                 case JTokenType.Array:
-                    return NAME.TYPE.PARAMETER;
+                    return NAME.EVENT.PARAMETER;
             }
-            return NAME.TYPE.PARAMETER;
+            return NAME.EVENT.PARAMETER;
         }
     };
 }
