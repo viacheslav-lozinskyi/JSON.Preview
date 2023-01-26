@@ -8,16 +8,19 @@
 
 ---
 
+## Important information:
 [![MetaOutput](https://www.metaoutput.net/_functions/watch?utm_source=github.com&utm_medium=referral&utm_campaign=view-on-github&utm_content=Preview-JSON&source=GITHUB&size=128x128&project=Preview-JSON&url=https://github.com/viacheslav-lozinskyi/Preview-JSON)](https://www.metaoutput.net/)
 
-### This extension is working only with installed [MetaOutput](https://www.metaoutput.net/) extension!
+This extension is working only with installed [MetaOutput](https://www.metaoutput.net/) extension!
 
 ---
 
-### Now you can look inside [JSON](https://en.wikipedia.org/wiki/JSON) file not opening it.
+## Description:
+Now you can look inside [JSON](https://en.wikipedia.org/wiki/JSON) file not opening it.
 
 ---
 
+## How it works:
 ![Image](https://viacheslav-lozinskyi.github.io/Preview-JSON/resource/video/Presentation1.gif)
 
 ---
