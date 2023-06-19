@@ -20,7 +20,7 @@ namespace resource.preview
 
         private static void __Execute(atom.Trace context, int level, JToken data, string name)
         {
-            if (GetState() == NAME.STATE.CANCEL)
+            if (GetState() == NAME.STATE.WORK.CANCEL)
             {
                 return;
             }
